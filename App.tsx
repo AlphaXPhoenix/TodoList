@@ -1,117 +1,93 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
+import {TypeAnimation} from 'react-native-type-animation';
+import {useSelector} from 'react-redux';
+import Navigation from './src/components/Navigation';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  const currentUser = useSelector(state => state.currentUser);
+  const [showTitle, setShowTitle] = useState(false);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  useEffect(() => {
+    if (!currentUser) {
+      const timeout = setTimeout(() => {
+        setShowTitle(true);
+      }, 600);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+      return () => clearTimeout(timeout);
+    } else {
+      setShowTitle(false);
+    }
+  }, [currentUser]);
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      {/* Top SafeArea for status bar */}
+      <SafeAreaView style={styles.safeAreaTop}>
+        <StatusBar
+          translucent={false}
+          backgroundColor="#4B0082"
+          barStyle="light-content"
+        />
+      </SafeAreaView>
+      {showTitle && (
+        <View style={styles.header}>
+          <TypeAnimation
+            cursor={false}
+            sequence={[
+              {text: 'A'},
+              {text: 'AC'},
+              {text: 'ACH'},
+              {text: 'ACHI'},
+              {text: 'ACHIE'},
+              {text: 'ACHIEV'},
+              {text: 'ACHIEVO'},
+              {text: 'ACHIEVO'},
+            ]}
+            style={styles.title}
+          />
+        </View>
+      )}
+
+      <View style={styles.content}>
+        <Navigation isLoggedIn={currentUser} />
+      </View>
+      {Platform.OS === 'ios' && <SafeAreaView style={styles.safeAreaBottom} />}
     </View>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  safeAreaTop: {
+    backgroundColor: '#4B0082',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  safeAreaBottom: {
+    backgroundColor: 'white',
   },
-  highlight: {
-    fontWeight: '700',
+  header: {
+    backgroundColor: '#4B0082',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: '15%',
+  },
+  title: {
+    color: 'white',
+    fontSize: 70,
+    textAlign: 'center',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: 'white',
   },
 });
 
