@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "296937715236",
+    "project_id": "advancetodolist-6a11f",
+    "storage_bucket": "advancetodolist-6a11f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296937715236:android:6f0d5818527b55c90dcab1",
+        "android_client_info": {
+          "package_name": "com.advancetodolist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN1jhX8nuQg86rN50qMglNNib3-Fs5kzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

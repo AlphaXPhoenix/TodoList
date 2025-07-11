@@ -11,12 +11,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginUser} from '../redux/actions';
+import {loginUser} from '../redux/userSlice'; // ✅ Updated import
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const SignIn = ({navigation}) => {
   const dispatch = useDispatch();
-  const users = useSelector(state => state.users);
+  const users = useSelector(state => state.user.users); // ✅ Updated selector
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +59,7 @@ const SignIn = ({navigation}) => {
       Alert.alert('Error', 'Invalid credentials');
       return;
     }
-    dispatch(loginUser(user));
+    dispatch(loginUser(user)); // ✅ Using Redux Toolkit action
   };
 
   return (
